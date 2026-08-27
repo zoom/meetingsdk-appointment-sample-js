@@ -1,0 +1,24 @@
+# Credentials — never commit
+.env
+.env.local
+*.pem
+*.key
+
+# Dependencies
+node_modules/
+web/node_modules/
+
+# Build output
+web/dist/
+dist/
+
+# Logs and coverage
+*.log
+coverage/
+
+# OS, editor, agent tooling
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.claude/

@@ -1,0 +1,22 @@
+{
+  "name": "meetingsdk-appointment-sample-js",
+  "version": "0.1.0",
+  "description": "Embed a Zoom meeting in an appointment page with Meeting SDK Component View",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": { "node": ">=20.0.0" },
+  "scripts": {
+    "build": "npm --prefix web ci && npm --prefix web run build",
+    "start": "node --env-file=.env src/server.js",
+    "dev": "npm --prefix web run build && node --env-file=.env --watch src/server.js",
+    "test": "node --test --test-reporter=spec \"tests/**/*.test.js\""
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "keywords": ["zoom", "meeting-sdk", "component-view", "embed", "sample"],
+  "author": "Zoom Communications, Inc.",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/zoom/meetingsdk-appointment-sample-js.git" }
+}

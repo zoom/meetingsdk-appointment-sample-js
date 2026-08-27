@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: meetingsdk-appointment-sample
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      # Both are set in the Render dashboard, never committed.
+      - key: ZOOM_MEETING_SDK_KEY
+        sync: false
+      - key: ZOOM_MEETING_SDK_SECRET
+        sync: false

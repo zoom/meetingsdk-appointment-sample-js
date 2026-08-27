@@ -1,0 +1,153 @@
+:root {
+  --fg: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --surface: #f9fafb;
+  --accent: #2563eb;
+  --error: #b91c1c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--fg);
+  background: var(--surface);
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.page-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-weight: 700;
+}
+
+.crumb {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Two columns: the meeting on the left, your own content on the right.
+   This layout is the entire argument for Component View. */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stage {
+  position: relative;
+  min-height: 480px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* The SDK needs a mounted element with non-zero size before init().
+   A hidden or zero-height container renders nothing and reports no error. */
+.meeting-root {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+}
+
+.stage-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px;
+  text-align: center;
+  background: #fff;
+}
+
+h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.with,
+.when {
+  margin: 0;
+  color: var(--muted);
+}
+
+button {
+  margin-top: 16px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.fine {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.error {
+  color: var(--error);
+}
+
+.sidebar {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  height: fit-content;
+}
+
+.sidebar h2 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+
+dl {
+  margin: 0 0 12px;
+}
+
+dt {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+dd {
+  margin: 0 0 8px;
+}

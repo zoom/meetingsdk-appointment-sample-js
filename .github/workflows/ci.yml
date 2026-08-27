@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['20', '22']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  build:
+    name: page build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm --prefix web ci
+      - run: npm --prefix web run build
+
+  docker:
+    name: docker build and boot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t meetingsdk-appointment-sample:ci .
+      - name: Boot and check health
+        run: |
+          docker run -d --name appt-ci -p 3000:3000 \
+            -e ZOOM_MEETING_SDK_KEY=ci-key \
+            -e ZOOM_MEETING_SDK_SECRET=ci-secret \
+            meetingsdk-appointment-sample:ci
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/health > /dev/null; then
+              echo "healthy after ${i}s"; exit 0
+            fi
+            sleep 1
+          done
+          docker logs appt-ci >&2; exit 1
+
+  secrets:
+    name: secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # The gitleaks action requires a paid licence for organization repos.
+      # The CLI is MIT and has no such restriction.
+      - run: |
+          docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest \
+            detect --source=/repo --redact --verbose --no-banner
